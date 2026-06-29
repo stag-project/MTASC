@@ -10,7 +10,7 @@
            Welcome brothers to suggest RP, so the code becomes more stable !
           <hr>
     </span>
-    <img style="width: 200px; border-radius:20px;" src="github_assets/matsc-logo.png"></img>
+    <img style="width: 200px; border-radius:20px;" src="github_assets/mtasc-logo.png"></img>
 </div>
 
 ![License](https://img.shields.io/badge/License-MIT-blue.svg)
