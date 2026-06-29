@@ -1,4 +1,4 @@
-## Stagdeer::Mtasc - Client - Frmework / C++ 20
+## MTASC - CLIENT - Frmework /
 
 ### 
 
