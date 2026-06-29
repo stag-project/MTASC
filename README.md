@@ -2,7 +2,7 @@
 
 ### 
 
-<div style="display: flex; flex-direction: row; gap: 5px; justify-content: center; margin: 5px;">
+<div style="flex-direction: row; gap: 5px; justify-content: center; margin: 5px;">
     <span>
          Asynchronous client framework, users build client libraries relying on lightweight POSIX-Socket,
           OpenSSL, and C++ Thread. Since it’s aimed at 'client' 
@@ -10,7 +10,7 @@
            Welcome brothers to suggest RP, so the code becomes more stable !
           <hr>
     </span>
-    <img style="width: 100%; border-radius:20px; height:50%;" src="github_assets/mtasc-logo.png"></img>
+    <img style="width: 100%; border-radius:20px; height:300px;" src="github_assets/mtasc-logo.png"></img>
 </div>
 
 ![License](https://img.shields.io/badge/License-MIT-blue.svg)
