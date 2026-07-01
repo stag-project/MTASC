@@ -13,7 +13,7 @@
     <img style="width: 100%; border-radius:20px; height:300px;" src="github_assets/mtasc-logo.png"></img>
 </div>
 
-![License](https://img.shields.io/badge/License-MIT-blue.svg)
+![License](https://img.shields.io/badge/License-Apache-blue.svg)
 ![C++](https://img.shields.io/badge/C++-20-blue.svg)
 ![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)
 
