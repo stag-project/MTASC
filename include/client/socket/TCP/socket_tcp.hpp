@@ -145,7 +145,14 @@ namespace stagdeer {
                     bool M_reuse_addr = true,
                     bool M_enable_Ipv6 = false,
                     int M_max_ret_count = 10
-                ) noexcept {
+                ) noexcept(
+                    noexcept(
+                        callback_token(
+                            std::declval<const std::error_code&>(),
+                            std::declval<struct stagdeer::client::socketTcp::client_context&&>()
+                        )
+                    )
+                ) {
                     if (M_context_.M_addrs_port == 0 || M_context_.M_addrs_host == nullptr) {
                         std::error_code new_ec = std::make_error_code(std::errc::invalid_argument);
                             M_threadManager.getThreadManager()
@@ -265,7 +272,14 @@ namespace stagdeer {
                 async_try_connect_tcp(
                     Tp&& callback_token,
                     struct client_context&& M_context_
-                ) noexcept {
+                ) noexcept(
+                    noexcept(
+                        callback_token(
+                            std::declval<const std::error_code&>(),
+                            std::declval<struct stagdeer::client::socketTcp::client_context&&>()
+                        )
+                    )
+                ) {
                         if (M_context_.M_addrs_host == nullptr || M_context_.M_resovler_addrs == nullptr) {
                             std::error_code new_ec = std::make_error_code(std::errc::bad_file_descriptor);
                             M_threadManager.getThreadManager()
@@ -369,15 +383,23 @@ namespace stagdeer {
                     stagdeer::util::lamdba_trais::M_is_retTp<
                         typename stagdeer::util::lamdba_trais::M_get_lamdba_ret_Tp<
                             Tp, const std::error_code& , size_t , 
-                                struct client_context&&>::__M_ret_lmdba , void 
+                                struct stagdeer::client::socketTcp::client_context
+                            &&>::__M_ret_lmdba , void 
                     >::__is_M_ret_Tp
                 >::type
                 async_write(
                     Tp&& callback_token, 
                     struct client_context&& M_context__,
                     const std::string& M_message__
-                )
-                noexcept {
+                ) noexcept (
+                    noexcept(
+                        callback_token(
+                            std::declval<const std::error_code&>(),
+                            std::declval<size_t>(),
+                            std::declval<struct stagdeer::client::socketTcp::client_context&&>()
+                        )
+                    )
+                ) {
                     if (M_context__.M_socketfd < 0 || M_context__.M_this_addr_invalid 
                         || M_context__.M_resovler_addrs == nullptr || M_message__.empty()) {
                             //PARAMPER INVLIAD
@@ -490,7 +512,7 @@ namespace stagdeer {
                     typename stagdeer::util::lamdba_trais::M_get_lamdba_ret_Tp <
                         Tp, const std::error_code& , size_t , std::shared_ptr<
                             stagdeer::client::readBuffer
-                        >&& , struct client_context&&
+                        >&& , struct stagdeer::client::socketTcp::client_context&&
                     >::__M_ret_lmdba                
                 , void>::__is_M_ret_Tp
             >::type
@@ -498,7 +520,16 @@ namespace stagdeer {
                 Tp&& callback_token, 
                 client_context&& M_context_,
                 const std::string& M_delimiter
-            ) noexcept {
+            ) noexcept (
+                noexcept(
+                    callback_token(
+                        std::declval<const std::error_code&>(),
+                        std::declval<size_t>(),
+                        std::declval<std::shared_ptr<stagdeer::client::readBuffer>&&>(),
+                        std::declval<struct stagdeer::client::socketTcp::client_context&&>()
+                    )
+                )
+            ) {
                 //CREATE BUFFER
                 //ADD UNITL READ TASK TO THREAD
                 std::shared_ptr<stagdeer::client::readBuffer> M_recv_buffer = 
@@ -668,7 +699,7 @@ namespace stagdeer {
                     typename stagdeer::util::lamdba_trais::M_get_lamdba_ret_Tp<
                         Tp, const std::error_code& ,size_t , std::shared_ptr<
                             stagdeer::client::readBuffer
-                        >&& , struct client_context&&
+                        >&& , struct stagdeer::client::socketTcp::client_context&&
                     >::__M_ret_lmdba, void
                 >::__is_M_ret_Tp
             >::type
@@ -677,7 +708,14 @@ namespace stagdeer {
                 std::shared_ptr<stagdeer::client::readBuffer>&& M_readBuffer,
                 client_context&& M_context_,
                 size_t M_chache_size
-            ) noexcept {
+            ) noexcept (
+                noexcept(
+                    std::declval<const std::error_code&>(),
+                    std::declval<size_t>(),
+                    std::declval<std::shared_ptr<stagdeer::client::readBuffer>&&>(),
+                    std::declval<struct stagdeer::client::socketTcp::client_context&&>()
+                )
+            ) {
                 M_context_.M_client_read_buffer = std::move(M_readBuffer);
                 if (M_chache_size <= 0) {
                     M_chache_size = 4096;

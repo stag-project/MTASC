@@ -40,7 +40,7 @@ void doRead(struct stagdeer::client::socketTcp::client_context client_ctx ,
                         */
                         printf("DATA:\n%s\n" , buffer->peekData());
                     return;
-                }, std::move(result_buffer_) , std::move(ctx), 126);
+                }, std::move(result_buffer_) , std::move(ctx), 21226);
              }, std::move(client_ctx), "\r\n\r\n");
     return;
 }
@@ -102,7 +102,7 @@ int main (int arg , char* argv[]) {
     std::string host  = argv[2];
     stagdeer::THREAD& threadInit = stagdeer::THREAD::getInstance();
     threadInit.createThreadManager(5);
-    stagdeer::client::socketTcpPtrT TCP = std::make_shared<stagdeer::client::socketTcp>(host.c_str() , 80 , "NULL");
+    stagdeer::client::socketTcpPtrT TCP = std::make_shared<stagdeer::client::socketTcp>(host.c_str() , 8080 , "NULL");
     struct stagdeer::client::socketTcp::client_context client_ctx = TCP->getClientContext();
     TCP->async_resolver_domain([TCP , url]
         (const std::error_code& ec , stagdeer::client::socketTcp::client_context&& ctx){

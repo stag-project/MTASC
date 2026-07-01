@@ -61,6 +61,8 @@ else()
     set(ARCH_32 TRUE)
 endif()
 
+find_package(OpenSSL REQUIRED)
+
 set(HEADER_DIR
     include/
 )
@@ -71,6 +73,10 @@ set(LIB_DIR
 )
 
 add_library(mtasc ${LIB_DIR})
-add_executable(mtasc_test test/test.cc)
+add_executable(mtasc_test test/test_stl.cc)
 target_include_directories(mtasc_test PRIVATE ${HEADER_DIR})
-target_link_libraries(mtasc_test mtasc)
+target_link_libraries(mtasc_test
+    PRIVATE
+    mtasc
+    OpenSSL::SSL
+    OpenSSL::Crypto)

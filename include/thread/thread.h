@@ -1,6 +1,13 @@
 #ifndef STAGDEER_THREAD
 #define STAGDEER_THREAD
 
+#define CLIENT_THREAD_INIT(__M_thread_number__)\
+stagdeer::THREAD& thread = stagdeer::THREAD::getInstance();\
+    thread.createThreadManager(__M_thread_number__)
+    #define CLIENT_THREAD_WITA()\
+        stagdeer::THREAD& __M_wita_thread__ = stagdeer::THREAD::getInstance();\
+            __M_wita_thread__.waitAllthread()
+
 #include "threadTask.hpp"
 #include <atomic>
 #include <cstddef>
