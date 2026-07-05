@@ -1,0 +1,16 @@
+*.o
+*.a
+*.so
+*.dylib
+*.dll
+*.exe
+
+build/
+cmake-build-*/
+
+.clangd/
+.vscode/
+.idea/
+
+*.tmp
+*.log
