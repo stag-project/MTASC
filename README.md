@@ -2,7 +2,7 @@
 
 ### 
 
-<div style="flex-direction: row; gap: 5px; justify-content: center; margin: 5px; color:blue">
+<div style="flex-direction: row; gap: 5px; justify-content: center; margin: 5px;">
     <span>
          Asynchronous client framework, users build client libraries relying on lightweight POSIX-Socket,
           OpenSSL, and C++ Thread. Since it’s aimed at 'client' 
@@ -25,7 +25,7 @@
 ###
 
 ###
-<div style="display:flex; flex-direction: column; color:blue">
+<div style="display:flex; flex-direction: column;">
 
 <div>
     <table>
