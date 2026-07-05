@@ -2,7 +2,7 @@
 
 ### 
 
-<div style="flex-direction: row; gap: 5px; justify-content: center; margin: 5px;">
+<div style="flex-direction: row; gap: 5px; justify-content: center; margin: 5px; color:blue">
     <span>
          Asynchronous client framework, users build client libraries relying on lightweight POSIX-Socket,
           OpenSSL, and C++ Thread. Since it’s aimed at 'client' 
@@ -25,7 +25,7 @@
 ###
 
 ###
-<div style="display:flex; flex-direction: column;">
+<div style="display:flex; flex-direction: column; color:blue">
 
 <div>
     <table>
@@ -50,6 +50,13 @@
         <tr> <td>2026/7/1|11:19[CHINA]</td>
             <td>
                 Supported OpenSSL connections and added initialization and wait macros for 'Thread'
+            </td>
+            <td><a href="https://github.com/chromes-air">chromes-air</a>
+            </td>
+        </tr>
+        <tr> <td>2026/7/5|10:43[CHINA]</td>
+            <td>
+                Mainly added support for 'async_write_tls', changed the SFINAE split, and corrected the API name from 'stl' to 'tls'
             </td>
             <td><a href="https://github.com/chromes-air">chromes-air</a>
             </td>
@@ -97,6 +104,14 @@
                 <td>SSL/socket_ssl.hpp/Thread/Thread.h</td>
                 <td><a href="https://github.com/chromes-air">chromes-air</a></td>
             </tr>
+              <tr>
+                <td>2026/7/5|10:46[CHINA]</td>
+                <td>
+                  Supports OpenSSL's 'async_write_tls' and fixes the spelling mistake from 'stl' to 'tls' in the TLS version enabling logic bug, as well as the SFINAE writing style. Please be patient for the next submission.
+                </td>
+                <td>SSL/socket_ssl.hpp/Thread/Thread.h</td>
+                <td><a href="https://github.com/chromes-air">chromes-air</a></td>
+            </tr>
         </div>
     </table>
 </div>
@@ -114,15 +129,21 @@ Supports 'async_stl_write' function method , becoming a secure client framework
 
 ### It's not recommended to use it right now, but you can check out the code and submit a PR to make it more stable .
 
-## UPDATE STL CONNECT EXAMPLE CODE (Complicated)
+## UPDATE STL CONNECT AND WRITE EXAMPLE CODE (Complicated)
+
+###
+I'll work on the documentation after the TCP/TLS code stabilizes.
+###
 
 ```cpp
-
 #include "../include/client/socket/SSL/socket_ssl.hpp"
 #include "../include/thread/thread.h"
+#include "../include/client/clientapp/clientTool.hpp"
+#include <cstddef>
 #include <cstdio>
 #include <iostream>
 #include <memory>
+#include <string>
 #include <system_error>
 #include <utility>
 
@@ -149,37 +170,56 @@ int main (int argc , char* argv[]) {
                         std::cerr << "Connect failed: " << ec.message() << std::endl;
                         return;
                     }
-                    std::shared_ptr<stagdeer::client::socketSSL> stlPtr = 
+                    
+                    std::cerr << "TCP handshake to " << argv[1] << " success" << std::endl;
+
+                    stagdeer::client::socketTlsPtrT tlsPtr = 
                         std::make_shared<stagdeer::client::socketSSL>();
                         
-                        struct stagdeer::client::socketSSL::openssl_options stl_options;
-                        stl_options.enable_tls_v1 = true;
+                        struct stagdeer::client::socketSSL::openssl_options tls_options;
+                        tls_options.enable_tls_v1 = true;
 
-                        stlPtr->async_create_stl(std::move([stlPtr = std::move(stlPtr) , argv]
+                        tlsPtr->async_create_tls(std::move([tlsPtr = std::move(tlsPtr) , argv]
                         (const std::error_code& ec , 
-                            struct stagdeer::client::socketSSL::openssl_options&& stl_options_, 
+                            struct stagdeer::client::socketSSL::openssl_options&& tls_options_, 
                                 struct stagdeer::client::socketTcp::client_context&& client_context__
                             ) mutable {
                                 if (ec) {
-                                    std::cerr << "Ceeate stl failed: " << ec.message() << std::endl;
+                                    std::cerr << "Ceeate tls failed: " << ec.message() << std::endl;
                                     return;
                                 }
-                                stlPtr->async_try_connect_stl(std::move([argv](const std::error_code& ec , 
+                                
+                                stagdeer::client::clientToolPtr client_tool_ptr = stagdeer::client::clientTool::newClientTool();
+                                std::string httpv1_tmp = client_tool_ptr->syncCreateHttpv1template(argv[1],
+                                     "/" , "NULL", stagdeer::httpMethod::GET,
+                                      {{"Content-type" , "application/json"
+                                    }
+                                });
+
+                                tlsPtr->async_try_connect_tls(std::move([argv , tlsPtr , httpv1_tmp](const std::error_code& ec , 
                                     stagdeer::client::socketTcp::client_context&& client_context___){
                                         if (ec) {
-                                            std::cerr << "STL handshake failed: " << ec.message() << std::endl;
+                                            std::cerr << "TLS handshake failed: " << ec.message() << std::endl;
                                             return;
                                         }
-                                        std::cerr << "STL handshake success to " << std::string(argv[1]) << std::endl;
-                                        return;
+                                        std::cerr << "TLS handshake to " << std::string(argv[1]) << " success" << std::endl;
+                                        tlsPtr->async_write_tls(std::move([httpv1_tmp = std::move(httpv1_tmp)](const std::error_code& ec , 
+                                            struct stagdeer::client::socketTcp::client_context&& write_client_context , size_t write_bytes){
+                                                if (ec) {
+                                                    std::cerr << "Write message failed: " << ec.message() << std::endl;
+                                                    return;
+                                                }
+                                                std::cerr << "Success write " << write_bytes << " Message" << std::endl;
+                                                return;
+                                            }), 
+                                        std::move(client_context___), std::move(httpv1_tmp));
                                     }), std::move(client_context__));
                             }), 
-                            std::move(stl_options), std::move(client_ctx_)
+                            std::move(tls_options), std::move(client_ctx_)
                         );
                 }), std::move(client_ctx));
         }), std::move(client_ctx)
     );    
 }
-
 ```
 ###
