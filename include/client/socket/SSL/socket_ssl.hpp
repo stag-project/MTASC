@@ -7,6 +7,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <functional>
+#include <iostream>
 #include <memory>
 #include <openssl/bio.h>
 #include <openssl/crypto.h>
@@ -399,6 +400,61 @@ namespace stagdeer {
                     });
                 }
                 return -1;
+            }
+
+            template<typename Tp>
+            auto async_read_until_tls(
+                Tp&& callback_token,
+                struct stagdeer::client::socketTcp::client_context&& M_context_,
+                const std::string& M_delimiter
+            ) noexcept(
+                noexcept(
+                    callback_token(
+                        std::declval<const std::error_code&>(),
+                        std::declval<size_t>(),
+                        std::declval<std::shared_ptr<stagdeer::client::readBuffer>&&>(),
+                        std::declval<struct stagdeer::client::socketTcp::client_context&&>()
+                    )
+                )
+            ) -> decltype(
+                std::declval<Tp>()(
+                    std::declval<const std::error_code&>(),
+                    std::declval<size_t>(),
+                    std::declval<std::shared_ptr<stagdeer::client::readBuffer>&&>(),
+                    std::declval<struct stagdeer::client::socketTcp::client_context&&>()
+                ),
+                typename stagdeer::util::lamdba_trais::constraint<
+                    stagdeer::util::lamdba_trais::M_is_retTp<
+                        typename stagdeer::util::lamdba_trais::M_get_lamdba_ret_Tp<
+                            Tp, const std::error_code& , size_t , 
+                            std::shared_ptr<
+                                stagdeer::client::readBuffer&&
+                            >,
+                            struct stagdeer::client::socketTcp::client_context&&
+                        >::__M_ret_lmdba, void>::__is_M_ret_Tp
+                >::type{}
+            ) {
+              //CREATE READBUFFER PTR
+              std::shared_ptr<stagdeer::client::readBuffer> M_read_buffer_ptr = std::make_shared<stagdeer::client::readBuffer>();
+              if (M_context_.M_socketfd < 0 || !M_openssl_configure.M_openssl_ptr || !M_openssl_configure.M_openssl_ctx_ptr) {
+                //INVLAID DATA
+                std::error_code ec = std::make_error_code(std::errc::bad_file_descriptor);
+                M_thread_manager.getThreadManager()
+                    .asyncTaskvoid(std::move(callback_token), ec , size_t(0) , 
+                        std::move(M_read_buffer_ptr) , std::move(M_context_)
+                    );
+                return -1;
+              }
+              M_thread_manager.getThreadManager()
+                .asyncTaskvoid(std::move(
+                    [self = shared_from_this() , callback_token = std::function<void(
+                        const std::error_code& , size_t , std::shared_ptr<stagdeer::client::readBuffer&&>,
+                            struct stagdeer::client::socketTcp::client_context&&
+                    )>(std::move(callback_token)) , M_context_ = std::move(M_context_),
+                    M_delimiter = std::move(M_delimiter)](){
+                        
+                    }
+                ));
             }
 
             private:
