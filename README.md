@@ -72,64 +72,6 @@
 
 <hr>
 
-###
-## UPDATE
-
-<div>
-    <table>
-        <th>UPDATE/TIME</th>
-        <th>UPDATE/ERROR/FUNCTION</th>
-        <th>UPDATE/FILE/LINE</th>
-        <th>CONTRIBUTORS</th>
-        <div>
-            <tr>
-                <td>2026/6/22|12:26[CHINA]</td>
-                <td>Support for LINUX TCP connection/write/template generation/simple HTTPS/HTTP URL parsing will be supported tomorrow, and SSL handling will be organized after reading.</td>
-                <td>TCP/socket_tcp.hpp</td>
-                <td><a href="https://github.com/chromes-air">chromes-air</a></td>
-            </tr>
-            <tr>
-                <td>2026/6/24|1:04[CHINA]</td>
-                <td>Rewrote URLPARSER to use a state machine for parsing, supporting both query and normal URLs. Updated 'async_read_until/async_read' to implement basic TCP operations. Planning to handle 'Chunked' later, focusing on the 'Exml' project this week to support XML parsing, which will be helpful later. After next week, the main focus will be on implementing SSL connection reading.</td>
-                <td>TCP/socket_tcp.hpp/Ipv4Addrs/Ipv6Addrs/Urlparser</td>
-                <td><a href="https://github.com/chromes-air">chromes-air</a></td>
-            </tr>
-            <tr>
-                <td>2026/6/24|11:31[CHINA]</td>
-                <td>
-                Refactored the low-level read logic, changing 'recv == 0' from being treated as a failure to a success since that's normal server behavior when there's no data to send. I also renamed 'client_addrs' to 'client_context' because it feels more straightforward and reasonable; 'addr' is for memory addresses, while 'context' means the context, so it fits the single-responsibility idea better. Plus, I changed the error callback notifications from 'int,string' to a unified 'std::error' type, making error info clearer and more professional. I tried parsing XML today—oh man, that's really tough—so I plan to first add 'SSL' support for Mtasc before diving into the XML parsing side of this project.
-                </td>
-                <td>TCP/socket_tcp.hpp/Ipv4Addrs/Ipv6Addrs/Urlparser</td>
-                <td><a href="https://github.com/chromes-air">chromes-air</a></td>
-            </tr>
-               <tr>
-                <td>2026/7/1|11:19[CHINA]</td>
-                <td>
-                    The OpenSSL connection function 'async_try_connect_tls' works for connecting to OpenSSL websites, but because different OpenSSL versions are kinda tricky, some site setups are annoying. For example, with the 'www' prefix, 'tls_v1.2' can connect, but without 'www', 'tls_v1.2' throws an error, and weirdly, there's no error message at all. This kind of thing really frustrates me, and I'm still looking for a solution,Besides, I added macros for 'Thread', like initialization and waiting.
-                </td>
-                <td>SSL/socket_ssl.hpp/Thread/Thread.h</td>
-                <td><a href="https://github.com/chromes-air">chromes-air</a></td>
-            </tr>
-              <tr>
-                <td>2026/7/5|10:46[CHINA]</td>
-                <td>
-                  Supports OpenSSL's 'async_write_tls' and fixes the spelling mistake from 'tls' to 'tls' in the TLS version enabling logic bug, as well as the SFINAE writing style. Please be patient for the next submission.
-                </td>
-                <td>SSL/socket_ssl.hpp/Thread/Thread.h</td>
-                <td><a href="https://github.com/chromes-air">chromes-air</a></td>
-            </tr>
-               <tr>
-                <td>2026/7/10|7:02[CHINA]</td>
-                <td>
-                Supporting 'async_read_until_tls' is really torturing me. What's even more frustrating is that OpenSSL always loves to return '2' saying there's no data, so every time I have to extend the default wait time to 1 second—that's the golden timeout duration. That's not even the worst part. I originally planned to just leave 'tls' spelling as is and only change the upper layers, but I'm a perfectionist, so I changed everything, including the underlying code. I even fixed the spelling of 'lamdba' in so many places, SFAINE—you can imagine how much that tortured me. I also added license declarations to every header file.
-                </td>
-                <td>SSL/socket_ssl.hpp/Thread/Thread.h</td>
-                <td><a href="https://github.com/chromes-air">chromes-air</a></td>
-            </tr>
-        </div>
-    </table>
-</div>
-
 ##
 ## Next target
 
