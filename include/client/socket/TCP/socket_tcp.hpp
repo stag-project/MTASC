@@ -1292,7 +1292,7 @@ namespace stagdeer {
             std::unordered_map<M_SOCKET_TP, connectInfo> M_connects;
         };
 
-        using socketTcpPtrT = std::shared_ptr<stagdeer::client::socketTcp>;
+        using socketTcpSocket = std::shared_ptr<stagdeer::client::socketTcp>;
     }
 }
 

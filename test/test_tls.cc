@@ -11,19 +11,19 @@
 
 int main () {
     CLIENT_THREAD_INIT(4);
-    stagdeer::client::socketTcpPtrT TcpPtr = std::make_shared<stagdeer::client::socketTcp>
+    stagdeer::client::socketTcpSocket tcpSocket = std::make_shared<stagdeer::client::socketTcp>
     ("www.baidu.com"  , 443 , "NULL");
-    stagdeer::client::socketTcp::client_context client_ctx = TcpPtr->getClientContext();
+    stagdeer::client::socketTcp::client_context client_ctx = tcpSocket->getClientContext();
     client_ctx.M_timeout =  5000000;
     client_ctx.M_is_enable_ipV6 = true;
-    TcpPtr->async_resolver_domain(std::move(
-        [TcpPtr = std::move(TcpPtr)](const std::error_code& ec , 
+    tcpSocket->async_resolver_domain(std::move(
+        [tcpSocket = std::move(tcpSocket)](const std::error_code& ec , 
             struct stagdeer::client::socketTcp::client_context&& client_ctx) mutable {
             if (ec) {
                 std::cerr << "Resolver domain failed: " << ec.message() << std::endl;
                 return;
             }
-            TcpPtr->async_try_connect_tcp(std::move([](const std::error_code& ec , 
+            tcpSocket->async_try_connect_tcp(std::move([](const std::error_code& ec , 
                 struct stagdeer::client::socketTcp::client_context&& client_ctx_){
                     if (ec) {
                         std::cerr << "Connect failed: " << ec.message() << std::endl;
@@ -32,19 +32,19 @@ int main () {
                     
                     std::cerr << "TCP handshake to " << "www.baidu.com" << " success" << std::endl;
 
-                    stagdeer::client::socketTlsPtrT tlsPtr = 
+                    stagdeer::client::socketTlsSocket tlsSocket = 
                         std::make_shared<stagdeer::client::socketSSL>();
                         
                         struct stagdeer::client::socketSSL::openssl_options tls_options;
                         tls_options.enable_tls_v1 = true;
 
-                        tlsPtr->async_create_tls(std::move([tlsPtr = std::move(tlsPtr)]
+                        tlsSocket->async_create_tls(std::move([tlsSocket = std::move(tlsSocket)]
                         (const std::error_code& ec , 
                             struct stagdeer::client::socketSSL::openssl_options&& tls_options_, 
                                 struct stagdeer::client::socketTcp::client_context&& client_context__
                             ) mutable {
                                 if (ec) {
-                                    std::cerr << "Ceeate tls failed: " << ec.message() << std::endl;
+                                    std::cerr << "Ceate tls socket failed: " << ec.message() << std::endl;
                                     return;
                                 }
                                 
@@ -57,14 +57,15 @@ int main () {
                                 
                                 std::cerr << "\n" << httpv1_tmp;
 
-                                tlsPtr->async_try_connect_tls(std::move([tlsPtr , httpv1_tmp](const std::error_code& ec , 
+                                tlsSocket->async_try_connect_tls(std::move([tlsSocket , httpv1_tmp](const std::error_code& ec , 
                                     stagdeer::client::socketTcp::client_context&& client_context___){
                                         if (ec) {
                                             std::cerr << "TLS handshake failed: " << ec.message() << std::endl;
                                             return;
                                         }
                                         std::cerr << "TLS handshake to " << std::string("www.baidu.com") << " success" << std::endl;
-                                        tlsPtr->async_write_tls(std::move([httpv1_tmp = std::move(httpv1_tmp) , tlsPtr = std::move(tlsPtr)](const std::error_code& ec , 
+                                        tlsSocket->async_write_tls(std::move([httpv1_tmp = std::move(httpv1_tmp) , 
+                                            tlsSocket = std::move(tlsSocket)](const std::error_code& ec , 
                                             struct stagdeer::client::socketTcp::client_context&& write_client_context , size_t write_bytes){
                                                 if (ec) {
                                                     std::cerr << "Write message failed: " << ec.message() << std::endl;
@@ -72,7 +73,7 @@ int main () {
                                                 }
                                                 std::cerr << "Success write " << write_bytes << " Message" << std::endl;
                                                 //TLS READ TEST
-                                                tlsPtr->async_read_until_tls([](const std::error_code& ec , size_t read_until_bytes , 
+                                                tlsSocket->async_read_until_tls([](const std::error_code& ec , size_t read_until_bytes , 
                                                     std::shared_ptr<stagdeer::client::readBuffer>&& read_buffer_ptr 
                                                     , struct stagdeer::client::socketTcp::client_context&& read_until_context) mutable {
                                                         if (ec) {
@@ -80,8 +81,6 @@ int main () {
                                                             return;
                                                         }
                                                         std::cerr << "Read message : " << read_until_bytes << " Bytes" << std::endl;
-                                                        std::cerr << "Message: " << std::endl;
-                                                        std::cerr << read_buffer_ptr->peekData() << std::endl;
                                                         return;
                                                 }, std::move(write_client_context), std::string("\r\n\r\n"));
                                             }), 

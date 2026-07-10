@@ -1038,7 +1038,7 @@ namespace stagdeer {
                         return client_ctx;
                     }
         };
-        using socketTlsPtrT = std::shared_ptr<stagdeer::client::socketSSL>;
+        using socketTlsSocket = std::shared_ptr<stagdeer::client::socketSSL>;
     }
 }
 
