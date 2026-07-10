@@ -1,3 +1,18 @@
+/**
+    Copyright [stag-project] [stag-project]
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+*/
 #ifndef STAGDEER_CLIENT_TCP_SOCKET
 #define STAGDEER_CLIENT_TCP_SOCKET
 
@@ -70,7 +85,7 @@ namespace stagdeer {
                     std::string M_clientMessage;
                     int M_clientMessageLength;
                     M_SOCKET_TP M_socketfd;
-                    uint16_t M_timeout = 20;
+                    int M_timeout = 20;
                     bool M_is_enable_ipV6 = false;
                     bool M_this_addr_invalid = false;
                     int M_connect_rety_count = 0;
@@ -150,9 +165,9 @@ namespace stagdeer {
                         std::declval<const std::error_code&>(),
                         std::declval<struct stagdeer::client::socketTcp::client_context&&>()
                     ),
-                    typename stagdeer::util::lamdba_trais::constraint<
-                        stagdeer::util::lamdba_trais::M_is_retTp
-                            <typename stagdeer::util::lamdba_trais::M_get_lamdba_ret_Tp<
+                    typename stagdeer::util::lambda_trais::constraint<
+                        stagdeer::util::lambda_trais::M_is_retTp
+                            <typename stagdeer::util::lambda_trais::M_get_lambda_ret_Tp<
                                 Tp, const std::error_code&, struct stagdeer
                                     ::client::socketTcp::client_context&&>
                             ::__M_ret_lmdba, void>
@@ -285,9 +300,9 @@ namespace stagdeer {
                         std::declval<struct stagdeer::client::socketTcp::client_context&&>()
                     ),
 
-                    typename stagdeer::util::lamdba_trais::constraint<
-                        stagdeer::util::lamdba_trais::M_is_retTp<
-                            typename stagdeer::util::lamdba_trais::M_get_lamdba_ret_Tp< 
+                    typename stagdeer::util::lambda_trais::constraint<
+                        stagdeer::util::lambda_trais::M_is_retTp<
+                            typename stagdeer::util::lambda_trais::M_get_lambda_ret_Tp< 
                                 Tp&&, const std::error_code& , struct stagdeer
                                     ::client::socketTcp::client_context&&>::__M_ret_lmdba, void 
                         >::__is_M_ret_Tp
@@ -411,9 +426,9 @@ namespace stagdeer {
                         std::declval<size_t>(),
                         std::declval<struct stagdeer::client::socketTcp::client_context&&>()
                     ),
-                    typename stagdeer::util::lamdba_trais::constraint<
-                        stagdeer::util::lamdba_trais::M_is_retTp<
-                            typename stagdeer::util::lamdba_trais::M_get_lamdba_ret_Tp<
+                    typename stagdeer::util::lambda_trais::constraint<
+                        stagdeer::util::lambda_trais::M_is_retTp<
+                            typename stagdeer::util::lambda_trais::M_get_lambda_ret_Tp<
                                 Tp, const std::error_code& , size_t , 
                                     struct stagdeer::client::socketTcp::client_context
                                 &&>::__M_ret_lmdba , void 
@@ -548,9 +563,9 @@ namespace stagdeer {
                     std::declval<std::shared_ptr<stagdeer::client::readBuffer>&&>(),
                     std::declval<struct stagdeer::client::socketTcp::client_context&&>()
                 ),
-                typename stagdeer::util::lamdba_trais::constraint<
-                    stagdeer::util::lamdba_trais::M_is_retTp<
-                        typename stagdeer::util::lamdba_trais::M_get_lamdba_ret_Tp <
+                typename stagdeer::util::lambda_trais::constraint<
+                    stagdeer::util::lambda_trais::M_is_retTp<
+                        typename stagdeer::util::lambda_trais::M_get_lambda_ret_Tp <
                             Tp, const std::error_code& , size_t , std::shared_ptr<
                                 stagdeer::client::readBuffer
                             >&& , struct stagdeer::client::socketTcp::client_context&&
@@ -741,9 +756,9 @@ namespace stagdeer {
                     std::declval<std::shared_ptr<stagdeer::client::readBuffer>&&>(),
                     std::declval<struct stagdeer::client::socketTcp::client_context&&>()
                 ),
-                typename stagdeer::util::lamdba_trais::constraint<
-                    stagdeer::util::lamdba_trais::M_is_retTp<
-                        typename stagdeer::util::lamdba_trais::M_get_lamdba_ret_Tp<
+                typename stagdeer::util::lambda_trais::constraint<
+                    stagdeer::util::lambda_trais::M_is_retTp<
+                        typename stagdeer::util::lambda_trais::M_get_lambda_ret_Tp<
                             Tp, const std::error_code& ,size_t , std::shared_ptr<
                                 stagdeer::client::readBuffer
                             >&& , struct stagdeer::client::socketTcp::client_context&&

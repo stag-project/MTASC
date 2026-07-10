@@ -1,3 +1,18 @@
+/**
+    Copyright [stag-project] [stag-project]
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+*/
 #ifndef STAGDEER_CLIENT_APPLICATION
 #define STAGDEER_CLIENT_APPLICATION
 
@@ -52,9 +67,9 @@ namespace stagdeer {
                 };
 
             template<typename Tp>
-            inline typename stagdeer::util::lamdba_trais::constraint<
-                util::lamdba_trais::M_is_retTp <
-                 typename util::lamdba_trais::M_get_lamdba_ret_Tp<
+            inline typename stagdeer::util::lambda_trais::constraint<
+                util::lambda_trais::M_is_retTp <
+                 typename util::lambda_trais::M_get_lambda_ret_Tp<
                     Tp , struct client_parser_basic_url
                     >::__M_ret_lmdba, void>
                  ::__is_M_ret_Tp
@@ -82,9 +97,9 @@ namespace stagdeer {
             }
 
             template<typename Tp>
-            inline typename stagdeer::util::lamdba_trais::constraint<
-                util::lamdba_trais::M_is_retTp<
-                    typename util::lamdba_trais::M_get_lamdba_ret_Tp<
+            inline typename stagdeer::util::lambda_trais::constraint<
+                util::lambda_trais::M_is_retTp<
+                    typename util::lambda_trais::M_get_lambda_ret_Tp<
                         Tp, struct client_parser_query_url>::__M_ret_lmdba, void
                 >::__is_M_ret_Tp
             >::type
@@ -114,9 +129,9 @@ namespace stagdeer {
             }
 
             template<typename Tp>
-            inline typename stagdeer::util::lamdba_trais::constraint<
-                util::lamdba_trais::M_is_retTp
-                    <typename util::lamdba_trais::M_get_lamdba_ret_Tp<
+            inline typename stagdeer::util::lambda_trais::constraint<
+                util::lambda_trais::M_is_retTp
+                    <typename util::lambda_trais::M_get_lambda_ret_Tp<
                         Tp , const std::string&
                     >::__M_ret_lmdba, void
                 >::__is_M_ret_Tp

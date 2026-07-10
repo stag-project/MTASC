@@ -1,0 +1,4 @@
+/home/kuromi/code/C++/StagdeerClient/build/CMakeFiles/mtasc.dir
+/home/kuromi/code/C++/StagdeerClient/build/CMakeFiles/mtasc_test.dir
+/home/kuromi/code/C++/StagdeerClient/build/CMakeFiles/edit_cache.dir
+/home/kuromi/code/C++/StagdeerClient/build/CMakeFiles/rebuild_cache.dir

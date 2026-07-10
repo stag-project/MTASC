@@ -128,9 +128,9 @@ namespace stagdeer {
             }
         public:
             template<typename Tp , typename ... Args>
-            stagdeer::util::lamdba_trais::constraint<
-                util::lamdba_trais::M_is_retTp<
-                  typename util::lamdba_trais::M_get_lamdba_ret_Tp
+            stagdeer::util::lambda_trais::constraint<
+                util::lambda_trais::M_is_retTp<
+                  typename util::lambda_trais::M_get_lambda_ret_Tp
                     <Tp , Args ...>::__M_ret_lmdba, void>::__is_M_ret_Tp
             >::type
             asyncTaskvoid(
@@ -159,8 +159,8 @@ namespace stagdeer {
                 
             template<typename Tp , typename ... Args>
             inline typename std::enable_if_t<
-               !util::lamdba_trais::M_is_retTp<
-                typename util::lamdba_trais::M_get_lamdba_ret_Tp
+               !util::lambda_trais::M_is_retTp<
+                typename util::lambda_trais::M_get_lambda_ret_Tp
                 <Tp, Args...>::__M_ret_lmdba,void>::__is_M_ret_Tp,
                     std::future<typename std::invoke_result_t<Tp,Args...>>
             >

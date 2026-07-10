@@ -1,0 +1,1 @@
+/usr/bin/c++  -O3 -march=native -Wl,--dependency-file=CMakeFiles/mtasc_test.dir/link.d CMakeFiles/mtasc_test.dir/test/test_tls.cc.o -o mtasc_test  libmtasc.a /usr/lib/libssl.so /usr/lib/libcrypto.so

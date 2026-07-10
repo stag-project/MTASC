@@ -1,0 +1,2 @@
+/usr/bin/ar qc libmtasc.a CMakeFiles/mtasc.dir/lib/parser_lib/urlparser_lib.cc.o CMakeFiles/mtasc.dir/lib/M_maker_httpv1_template.cc.o
+/usr/bin/ranlib libmtasc.a
